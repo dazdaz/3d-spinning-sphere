@@ -26,7 +26,7 @@ starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVer
 const starField = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(starField);
 
-// Sphere geometry and material with lighter blue color
+// Sphere geometry and material with lighter blue color and transparency
 const geometry = new THREE.SphereGeometry(1.5, 32, 32); // Increased size from 1 to 1.5
 const material = new THREE.MeshStandardMaterial({
     color: 0x87ceeb, // Lighter blue color (sky blue)
@@ -34,6 +34,8 @@ const material = new THREE.MeshStandardMaterial({
     emissiveIntensity: 0.5,
     roughness: 0.1,
     metalness: 0.8,
+    transparent: true, // Enable transparency
+    opacity: 0.3,      // Make sphere mostly transparent
     wireframe: false
 });
 const sphere = new THREE.Mesh(geometry, material);
@@ -45,7 +47,7 @@ const wireframeMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     wireframe: true,
     transparent: true,
-    opacity: 0.3
+    opacity: 0.8 // Make wireframe more visible than the sphere
 });
 const wireframeSphere = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
 sphere.add(wireframeSphere);
