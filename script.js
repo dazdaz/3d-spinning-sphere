@@ -26,11 +26,11 @@ starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVer
 const starField = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(starField);
 
-// Sphere geometry and material with wireframe for better visibility
-const geometry = new THREE.SphereGeometry(1, 32, 32);
+// Sphere geometry and material with lighter blue color
+const geometry = new THREE.SphereGeometry(1.5, 32, 32); // Increased size from 1 to 1.5
 const material = new THREE.MeshStandardMaterial({
-    color: 0x00ffff,
-    emissive: 0x004444,
+    color: 0x87ceeb, // Lighter blue color (sky blue)
+    emissive: 0x4488cc,
     emissiveIntensity: 0.5,
     roughness: 0.1,
     metalness: 0.8,
@@ -40,7 +40,7 @@ const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
 // Add wireframe overlay for better rotation visibility
-const wireframeGeometry = new THREE.SphereGeometry(1.01, 16, 12);
+const wireframeGeometry = new THREE.SphereGeometry(1.51, 16, 12); // Slightly larger than sphere
 const wireframeMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     wireframe: true,
@@ -49,6 +49,48 @@ const wireframeMaterial = new THREE.MeshBasicMaterial({
 });
 const wireframeSphere = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
 sphere.add(wireframeSphere);
+
+// Add small lights at wireframe intersections
+const intersectionLights = [];
+const lightGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+const lightMaterial = new THREE.MeshBasicMaterial({ 
+    color: 0xffffff,
+    emissive: 0xffffff
+});
+
+// Create lights at key intersection points
+const intersectionPoints = [
+    { theta: 0, phi: 0 },
+    { theta: Math.PI/2, phi: 0 },
+    { theta: Math.PI, phi: 0 },
+    { theta: 3*Math.PI/2, phi: 0 },
+    { theta: 0, phi: Math.PI/2 },
+    { theta: Math.PI/2, phi: Math.PI/2 },
+    { theta: Math.PI, phi: Math.PI/2 },
+    { theta: 3*Math.PI/2, phi: Math.PI/2 },
+    { theta: 0, phi: Math.PI },
+    { theta: Math.PI/2, phi: Math.PI },
+    { theta: Math.PI, phi: Math.PI },
+    { theta: 3*Math.PI/2, phi: Math.PI },
+    { theta: Math.PI/4, phi: Math.PI/4 },
+    { theta: 3*Math.PI/4, phi: Math.PI/4 },
+    { theta: 5*Math.PI/4, phi: Math.PI/4 },
+    { theta: 7*Math.PI/4, phi: Math.PI/4 },
+    { theta: Math.PI/4, phi: 3*Math.PI/4 },
+    { theta: 3*Math.PI/4, phi: 3*Math.PI/4 },
+    { theta: 5*Math.PI/4, phi: 3*Math.PI/4 },
+    { theta: 7*Math.PI/4, phi: 3*Math.PI/4 }
+];
+
+intersectionPoints.forEach(point => {
+    const light = new THREE.Mesh(lightGeometry, lightMaterial);
+    light.position.x = 1.52 * Math.sin(point.phi) * Math.cos(point.theta);
+    light.position.y = 1.52 * Math.cos(point.phi);
+    light.position.z = 1.52 * Math.sin(point.phi) * Math.sin(point.theta);
+    
+    intersectionLights.push(light);
+    sphere.add(light);
+});
 
 // Add some visual markers (small spheres) on the surface
 const markerGeometry = new THREE.SphereGeometry(0.05, 8, 8);
@@ -60,9 +102,9 @@ for (let i = 0; i < 8; i++) {
     const theta = (i / 8) * Math.PI * 2;
     const phi = Math.PI / 4;
     
-    marker.position.x = Math.sin(phi) * Math.cos(theta);
-    marker.position.y = Math.cos(phi);
-    marker.position.z = Math.sin(phi) * Math.sin(theta);
+    marker.position.x = 1.5 * Math.sin(phi) * Math.cos(theta);
+    marker.position.y = 1.5 * Math.cos(phi);
+    marker.position.z = 1.5 * Math.sin(phi) * Math.sin(theta);
     
     sphere.add(marker);
 }
