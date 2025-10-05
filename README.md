@@ -2,6 +2,8 @@
 
 An interactive 3D spinning sphere with starfield background and mouse controls, built with Three.js.
 
+![Screenshot of 3D Spinning Sphere](screenshot.png)
+
 ## Features
 
 - **3D Spinning Sphere**: A glowing cyan sphere with wireframe overlay and red marker dots for clear rotation visibility
@@ -57,6 +59,7 @@ An interactive 3D spinning sphere with starfield background and mouse controls, 
 ├── index.html          # Main HTML file
 ├── script.js           # JavaScript application logic
 ├── three.min.js        # Three.js library
+├── screenshot.png      # Application screenshot
 └── README.md           # This file
 ```
 
